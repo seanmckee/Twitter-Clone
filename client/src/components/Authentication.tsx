@@ -62,6 +62,7 @@ const Authentication = () => {
         setCookies("access_token", response.data.token);
         window.localStorage.setItem("userID", response.data.userID);
       }
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }

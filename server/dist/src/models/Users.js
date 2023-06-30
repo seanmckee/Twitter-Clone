@@ -9,5 +9,8 @@ const UserSchema = new mongoose_1.default.Schema({
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    likes: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Post" }],
+    retweets: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Post" }],
+    posts: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Post" }],
 });
 exports.UserModel = mongoose_1.default.model("users", UserSchema);
