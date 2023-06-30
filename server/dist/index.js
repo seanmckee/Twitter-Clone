@@ -8,6 +8,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const users_1 = require("./src/routes/users");
 const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
+const posts_1 = require("./src/routes/posts");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
@@ -16,6 +17,7 @@ app.use(express_1.default.urlencoded({ extended: false }));
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 app.use("/auth", users_1.userRouter);
+app.use("/posts", posts_1.postRouter);
 mongoose_1.default.connect(connection);
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

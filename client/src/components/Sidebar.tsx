@@ -10,7 +10,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="text-left">
+    <div className="text-left fixed">
       <ul className=" flex flex-col">
         <li className="font-bold text-white text-4xl mb-5">
           <FaTwitter className="ml-4" />
