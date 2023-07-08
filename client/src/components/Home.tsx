@@ -6,6 +6,7 @@ import { useState } from "react";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
+  const [triggerRender, setTriggerRender] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -17,14 +18,14 @@ const Home = () => {
       }
     };
     fetchPosts();
-  }, []);
+  }, [triggerRender]);
 
   return (
     <div className="overflow-y-scroll max-h-screen scrollbar-none">
       <h1 className="text-white font-bold text-2xl text-left  w-full border-[1px] border-zinc-800 pb-4 pl-3 pt-3 mb-0">
         Home
       </h1>
-      <WriteTweet />
+      <WriteTweet trigger={triggerRender} setTrigger={setTriggerRender} />
 
       <div className="">
         {posts.map((post: any) => (
