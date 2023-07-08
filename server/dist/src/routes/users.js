@@ -47,6 +47,19 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const token = jsonwebtoken_1.default.sign({ id: user._id }, "secret");
     res.json({ token, userID: user._id });
 }));
+// write a route to get username from id
+router.get("/username/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const user = yield Users_js_1.UserModel.findById(id);
+    if (!user)
+        return res.json({ message: "User does not exist" });
+    try {
+        res.json({ username: user.username });
+    }
+    catch (error) {
+        res.json({ message: error });
+    }
+}));
 const verifyToken = (req, res, next) => {
     const token = req.headers.authorization;
     if (token) {

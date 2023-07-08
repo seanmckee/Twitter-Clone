@@ -20,12 +20,15 @@ router.post("/", verifyToken, async (req: Request, res: Response) => {
   const post = new PostModel({
     text: req.body.text,
     user: req.body.user,
+    username: req.body.username,
   });
-
+  // q: how to cast user to mongoose.Schema.Types.ObjectId
+  // a"
   try {
     const response = await post.save();
     res.json(response);
   } catch (error) {
+    console.error(error);
     res.json({ message: error });
   }
 });

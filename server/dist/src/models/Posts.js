@@ -15,7 +15,8 @@ const CommentSchema = new mongoose_1.default.Schema({
 const PostSchema = new mongoose_1.default.Schema({
     text: { type: String, required: true },
     date: { type: Date, default: Date.now },
-    user: { type: mongoose_1.default.Schema.Types.String, ref: "User" },
+    user: { type: mongoose_1.default.Schema.Types.ObjectId, ref: "User" },
+    username: { type: String, required: true },
     likes: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "User" }],
     comments: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Comment" }],
 });

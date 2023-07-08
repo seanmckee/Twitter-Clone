@@ -2,28 +2,38 @@ import axios from "axios";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 
-const WriteTweet = () => {
+const WriteTweet = (trigger: any, setTriggerRender: any) => {
   const [tweetText, setTweetText] = useState("");
   const [cookies, _] = useCookies(["access_token"]);
 
   const handleTweet = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    console.log(tweetText);
     try {
+      const username = await axios.get(
+        `http://localhost:8000/auth/username/${window.localStorage.getItem(
+          "userID"
+        )}`
+      );
+
+      console.log(username.data.username);
+
       await axios.post(
         "http://localhost:8000/posts",
         {
           text: tweetText,
           user: window.localStorage.getItem("userID"),
+          username: username.data.username,
         },
         {
           headers: { authorization: cookies.access_token },
         }
       );
+      console.log("got here");
       setTweetText("");
     } catch (error) {
       console.error(error);
     }
+    setTriggerRender(!trigger);
   };
 
   return (

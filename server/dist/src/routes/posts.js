@@ -31,12 +31,16 @@ router.post("/", users_js_1.verifyToken, (req, res) => __awaiter(void 0, void 0,
     const post = new Posts_js_1.PostModel({
         text: req.body.text,
         user: req.body.user,
+        username: req.body.username,
     });
+    // q: how to cast user to mongoose.Schema.Types.ObjectId
+    // a"
     try {
         const response = yield post.save();
         res.json(response);
     }
     catch (error) {
+        console.error(error);
         res.json({ message: error });
     }
 }));

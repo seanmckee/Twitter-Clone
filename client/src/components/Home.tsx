@@ -11,7 +11,6 @@ const Home = () => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get("http://localhost:8000/posts");
-        console.log(response.data);
         setPosts(response.data);
       } catch (error) {
         console.error(error);
@@ -30,7 +29,7 @@ const Home = () => {
       <div className="">
         {posts.map((post: any) => (
           <Tweet
-            username={post.user.username}
+            username={post.username}
             text={post.text}
             likes={post.likes ? post.likes.length : 0}
             key={post._id}
