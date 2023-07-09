@@ -1,8 +1,15 @@
 import axios from "axios";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
+import { StateInterface } from "./Home";
 
-const WriteTweet = (trigger: any, setTriggerRender: any) => {
+const WriteTweet = ({
+  trigger,
+  setTrigger,
+}: {
+  trigger: StateInterface["triggerRender"];
+  setTrigger: StateInterface["setTriggerRender"];
+}) => {
   const [tweetText, setTweetText] = useState("");
   const [cookies, _] = useCookies(["access_token"]);
 
@@ -33,7 +40,7 @@ const WriteTweet = (trigger: any, setTriggerRender: any) => {
     } catch (error) {
       console.error(error);
     }
-    setTriggerRender(!trigger);
+    setTrigger(!trigger);
   };
 
   return (
