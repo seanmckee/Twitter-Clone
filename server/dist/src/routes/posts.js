@@ -16,6 +16,7 @@ exports.postRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const users_js_1 = require("./users.js");
 const Posts_js_1 = require("../models/Posts.js");
+const Users_js_1 = require("../models/Users.js");
 const router = express_1.default.Router();
 exports.postRouter = router;
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -33,14 +34,46 @@ router.post("/", users_js_1.verifyToken, (req, res) => __awaiter(void 0, void 0,
         user: req.body.user,
         username: req.body.username,
     });
-    // q: how to cast user to mongoose.Schema.Types.ObjectId
-    // a"
     try {
         const response = yield post.save();
         res.json(response);
     }
     catch (error) {
         console.error(error);
+        res.json({ message: error });
+    }
+}));
+// like a post
+router.put("/like", users_js_1.verifyToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { postID, userID } = req.body;
+    const post = yield Posts_js_1.PostModel.findById(postID);
+    if (!post)
+        return res.json({ message: "Post does not exist" });
+    const user = yield Users_js_1.UserModel.findById(userID);
+    if (!user)
+        return res.json({ message: "User does not exist" });
+    try {
+        yield user.updateOne({ $push: { likes: postID } });
+        yield post.updateOne({ $push: { likes: userID } });
+    }
+    catch (error) {
+        res.json({ message: error });
+    }
+}));
+// unlike a post
+router.put("/unlike", users_js_1.verifyToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { postID, userID } = req.body;
+    const post = yield Posts_js_1.PostModel.findById(postID);
+    if (!post)
+        return res.json({ message: "Post does not exist" });
+    const user = yield Users_js_1.UserModel.findById(userID);
+    if (!user)
+        return res.json({ message: "User does not exist" });
+    try {
+        yield user.updateOne({ $pull: { likes: postID } });
+        yield post.updateOne({ $pull: { likes: userID } });
+    }
+    catch (error) {
         res.json({ message: error });
     }
 }));

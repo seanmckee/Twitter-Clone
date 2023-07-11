@@ -15,6 +15,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
+      console.log(triggerRender);
       try {
         const response = await axios.get("http://localhost:8000/posts");
         setPosts(response.data);
@@ -41,6 +42,14 @@ const Home = () => {
               username={post.username}
               text={post.text}
               likes={post.likes ? post.likes.length : 0}
+              liked={
+                post.likes
+                  ? post.likes.includes(localStorage.getItem("userID"))
+                  : false
+              }
+              postID={post._id}
+              trigger={triggerRender}
+              setTrigger={setTriggerRender}
               key={post._id}
             />
           ))}

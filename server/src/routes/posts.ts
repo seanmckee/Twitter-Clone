@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import { verifyToken } from "./users.js";
 import { PostModel } from "../models/Posts.js";
+import { UserModel } from "../models/Users.js";
 import { Request, Response } from "express";
 
 const router = express.Router();
@@ -22,13 +23,44 @@ router.post("/", verifyToken, async (req: Request, res: Response) => {
     user: req.body.user,
     username: req.body.username,
   });
-  // q: how to cast user to mongoose.Schema.Types.ObjectId
-  // a"
+
   try {
     const response = await post.save();
     res.json(response);
   } catch (error) {
     console.error(error);
+    res.json({ message: error });
+  }
+});
+
+// like a post
+router.put("/like", verifyToken, async (req: Request, res: Response) => {
+  const { postID, userID } = req.body;
+  const post = await PostModel.findById(postID);
+  if (!post) return res.json({ message: "Post does not exist" });
+  const user = await UserModel.findById(userID);
+  if (!user) return res.json({ message: "User does not exist" });
+
+  try {
+    await user.updateOne({ $push: { likes: postID } });
+    await post.updateOne({ $push: { likes: userID } });
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
+
+// unlike a post
+router.put("/unlike", verifyToken, async (req: Request, res: Response) => {
+  const { postID, userID } = req.body;
+  const post = await PostModel.findById(postID);
+  if (!post) return res.json({ message: "Post does not exist" });
+  const user = await UserModel.findById(userID);
+  if (!user) return res.json({ message: "User does not exist" });
+
+  try {
+    await user.updateOne({ $pull: { likes: postID } });
+    await post.updateOne({ $pull: { likes: userID } });
+  } catch (error) {
     res.json({ message: error });
   }
 });
