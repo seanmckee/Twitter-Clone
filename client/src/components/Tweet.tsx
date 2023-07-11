@@ -9,9 +9,7 @@ type TweetProps = {
   likes: number;
   liked: boolean;
   postID: string;
-  trigger: StateInterface["triggerRender"];
-  setTrigger: StateInterface["setTriggerRender"];
-};
+} & StateInterface;
 
 const Tweet = ({
   username,
@@ -19,8 +17,8 @@ const Tweet = ({
   likes,
   liked,
   postID,
-  trigger,
-  setTrigger,
+  triggerRender,
+  setTriggerRender,
 }: TweetProps) => {
   const [cookies, _] = useCookies(["access_token"]);
 
@@ -36,7 +34,7 @@ const Tweet = ({
           headers: { authorization: cookies.access_token },
         }
       );
-      setTrigger((prevTrigger) => !prevTrigger);
+      setTriggerRender(!triggerRender);
     } catch (error) {
       console.error(error);
     }
@@ -56,7 +54,7 @@ const Tweet = ({
           headers: { authorization: cookies.access_token },
         }
       );
-      setTrigger((prevTrigger) => !prevTrigger);
+      setTriggerRender(!triggerRender);
     } catch (error) {
       console.error(error);
     }
