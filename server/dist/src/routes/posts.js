@@ -77,3 +77,33 @@ router.put("/unlike", users_js_1.verifyToken, (req, res) => __awaiter(void 0, vo
         res.json({ message: error });
     }
 }));
+// get comments
+router.put("/comments", users_js_1.verifyToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { postID } = req.body;
+    const post = yield Posts_js_1.PostModel.findById(postID);
+    if (!post)
+        return res.json({ message: "Post does not exist" });
+    try {
+        const comments = yield Posts_js_1.PostModel.find({ _id: { $in: post.comments } });
+        res.json(comments);
+    }
+    catch (error) {
+        res.json({ message: error });
+    }
+}));
+// add comment
+router.put("/add-comment", users_js_1.verifyToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { postID, userID, text } = req.body;
+    const post = yield Posts_js_1.PostModel.findById(postID);
+    if (!post)
+        return res.json({ message: "Post does not exist" });
+    const user = yield Users_js_1.UserModel.findById(userID);
+    if (!user)
+        return res.json({ message: "User does not exist" });
+    try {
+        yield user.updateOne({ $push: { comments: postID } });
+    }
+    catch (error) {
+        res.json({ message: error });
+    }
+}));

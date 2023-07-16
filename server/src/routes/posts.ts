@@ -65,4 +65,33 @@ router.put("/unlike", verifyToken, async (req: Request, res: Response) => {
   }
 });
 
+// get comments
+router.put("/comments", verifyToken, async (req: Request, res: Response) => {
+  const { postID } = req.body;
+  const post = await PostModel.findById(postID);
+  if (!post) return res.json({ message: "Post does not exist" });
+
+  try {
+    const comments = await PostModel.find({ _id: { $in: post.comments } });
+    res.json(comments);
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
+
+// add comment
+router.put("/add-comment", verifyToken, async (req: Request, res: Response) => {
+  const { postID, userID, text } = req.body;
+  const post = await PostModel.findById(postID);
+  if (!post) return res.json({ message: "Post does not exist" });
+  const user = await UserModel.findById(userID);
+  if (!user) return res.json({ message: "User does not exist" });
+
+  try {
+    await user.updateOne({ $push: { comments: postID } });
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
+
 export { router as postRouter };

@@ -13,16 +13,16 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const [triggerRender, setTriggerRender] = useState(false);
 
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/posts");
+      setPosts(response.data);
+      setTriggerRender(!triggerRender);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
-    const fetchPosts = async () => {
-      console.log(triggerRender);
-      try {
-        const response = await axios.get("http://localhost:8000/posts");
-        setPosts(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchPosts();
   }, [triggerRender]);
 
