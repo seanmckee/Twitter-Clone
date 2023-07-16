@@ -127,22 +127,7 @@ const Tweet = ({
           </button>
           <span className="ml-1">0</span>
         </div>
-        {/* <button onClick={togglePopup}>
-          <HiReply />
-        </button>
-        <div className="m-1 ml-2 ">
-          <Popup
-            open={open}
-            closeOnDocumentClick
-            onClose={togglePopup}
-            arrow={false}
-            position="center center"
-          >
-            <div className="bg-black text-white w-[300px] h-[200px] rounded-3xl p-4 backdrop-blur-sm bg-white/30">
-              Popup content here !!
-            </div>
-          </Popup>
-        </div> */}
+
         <button onClick={togglePopup}>
           <HiReply />
         </button>
@@ -160,9 +145,24 @@ const Tweet = ({
               "linear-gradient(rgba(147, 197, 253, 0.2), rgba(147, 197, 253, 0.2))",
           }}
         >
-          <div className="w-[500px] h-[300px] p-4 rounded-3xl">
+          <div className="w-[500px] h-[250px] p-4 rounded-3xl">
             <div className="absolute inset-0 bg-black rounded-3xl text-slate-400" />
-            Popup content here!!
+            <textarea
+              className="absolute focus:outline-0 border-0 top-4 bg-black border-t-0 mb-2 text-white resize-none w-[450px] h-[100px] placeholder:text-xl p-3 text-xl"
+              name="tweet"
+              id="tweet"
+              cols={20}
+              rows={10}
+              placeholder="Tweet your reply!"
+              // value={tweetText}
+              // onChange={(event) => setTweetText(event.target.value)}
+            ></textarea>
+            <button
+              // onClick={handleTweet}
+              className="bg-blue-400 rounded-full text-white p-2 px-4 float-right absolute right-4 bottom-4"
+            >
+              Reply
+            </button>
           </div>
         </Popup>
       </div>

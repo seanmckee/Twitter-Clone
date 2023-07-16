@@ -46,7 +46,7 @@ const WriteTweet = ({
   return (
     <div className="relative">
       <textarea
-        className="bg-black border-t-0 border-[1px] border-zinc-800 mb-2 text-white resize-none w-full h-[100px] placeholder:text-xl p-3 text-xl"
+        className="bg-black focus:outline-0 border-t-0 border-[1px] border-zinc-800 mb-2 text-white resize-none w-full h-[100px] placeholder:text-xl p-3 text-xl"
         name="tweet"
         id="tweet"
         cols={30}
