@@ -7,6 +7,7 @@ import { Request, Response } from "express";
 
 const router = express.Router();
 
+// get all posts
 router.get("/", async (req: Request, res: Response) => {
   try {
     const response = await PostModel.find({});
@@ -17,6 +18,17 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+// get a post by id
+router.get("/:postID", async (req: Request, res: Response) => {
+  try {
+    const response = await PostModel.findById(req.params.postID);
+    res.json(response);
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
+
+// new post
 router.post("/", verifyToken, async (req: Request, res: Response) => {
   const post = new PostModel({
     text: req.body.text,
@@ -60,35 +72,6 @@ router.put("/unlike", verifyToken, async (req: Request, res: Response) => {
   try {
     await user.updateOne({ $pull: { likes: postID } });
     await post.updateOne({ $pull: { likes: userID } });
-  } catch (error) {
-    res.json({ message: error });
-  }
-});
-
-// get comments
-router.put("/comments", verifyToken, async (req: Request, res: Response) => {
-  const { postID } = req.body;
-  const post = await PostModel.findById(postID);
-  if (!post) return res.json({ message: "Post does not exist" });
-
-  try {
-    const comments = await PostModel.find({ _id: { $in: post.comments } });
-    res.json(comments);
-  } catch (error) {
-    res.json({ message: error });
-  }
-});
-
-// add comment
-router.put("/add-comment", verifyToken, async (req: Request, res: Response) => {
-  const { postID, userID, text } = req.body;
-  const post = await PostModel.findById(postID);
-  if (!post) return res.json({ message: "Post does not exist" });
-  const user = await UserModel.findById(userID);
-  if (!user) return res.json({ message: "User does not exist" });
-
-  try {
-    await user.updateOne({ $push: { comments: postID } });
   } catch (error) {
     res.json({ message: error });
   }

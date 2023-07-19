@@ -19,6 +19,7 @@ const Posts_js_1 = require("../models/Posts.js");
 const Users_js_1 = require("../models/Users.js");
 const router = express_1.default.Router();
 exports.postRouter = router;
+// get all posts
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield Posts_js_1.PostModel.find({});
@@ -28,6 +29,17 @@ router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.json({ message: error });
     }
 }));
+// get a post by id
+router.get("/:postID", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield Posts_js_1.PostModel.findById(req.params.postID);
+        res.json(response);
+    }
+    catch (error) {
+        res.json({ message: error });
+    }
+}));
+// new post
 router.post("/", users_js_1.verifyToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const post = new Posts_js_1.PostModel({
         text: req.body.text,
@@ -72,36 +84,6 @@ router.put("/unlike", users_js_1.verifyToken, (req, res) => __awaiter(void 0, vo
     try {
         yield user.updateOne({ $pull: { likes: postID } });
         yield post.updateOne({ $pull: { likes: userID } });
-    }
-    catch (error) {
-        res.json({ message: error });
-    }
-}));
-// get comments
-router.put("/comments", users_js_1.verifyToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { postID } = req.body;
-    const post = yield Posts_js_1.PostModel.findById(postID);
-    if (!post)
-        return res.json({ message: "Post does not exist" });
-    try {
-        const comments = yield Posts_js_1.PostModel.find({ _id: { $in: post.comments } });
-        res.json(comments);
-    }
-    catch (error) {
-        res.json({ message: error });
-    }
-}));
-// add comment
-router.put("/add-comment", users_js_1.verifyToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { postID, userID, text } = req.body;
-    const post = yield Posts_js_1.PostModel.findById(postID);
-    if (!post)
-        return res.json({ message: "Post does not exist" });
-    const user = yield Users_js_1.UserModel.findById(userID);
-    if (!user)
-        return res.json({ message: "User does not exist" });
-    try {
-        yield user.updateOne({ $push: { comments: postID } });
     }
     catch (error) {
         res.json({ message: error });

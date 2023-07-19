@@ -71,37 +71,37 @@ const Tweet = ({
     console.log("unliked");
   };
 
-  const openComments = async () => {
-    try {
-      await axios.put(
-        "http://localhost:8000/posts/comments",
-        {
-          postID: postID,
-        },
-        {
-          headers: { authorization: cookies.access_token },
-        }
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const openComments = async () => {
+  //   try {
+  //     await axios.put(
+  //       "http://localhost:8000/posts/comments",
+  //       {
+  //         postID: postID,
+  //       },
+  //       {
+  //         headers: { authorization: cookies.access_token },
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  const postComment = async () => {
-    try {
-      await axios.post(
-        "http://localhost:8000/posts/comments",
-        {
-          postID: postID,
-        },
-        {
-          headers: { authorization: cookies.access_token },
-        }
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const postComment = async () => {
+  //   try {
+  //     await axios.post(
+  //       "http://localhost:8000/posts/comments",
+  //       {
+  //         postID: postID,
+  //       },
+  //       {
+  //         headers: { authorization: cookies.access_token },
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <div className="border-[1px] border-zinc-800 p-6">
