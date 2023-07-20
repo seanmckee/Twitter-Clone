@@ -21,6 +21,7 @@ const Tweet = ({ username, text, likes, liked, postID }: TweetProps) => {
   const [open, setOpen] = useState(false);
   const [currentLikes, setCurrentLikes] = useState(likes);
   const [isLiked, setIsLiked] = useState(liked);
+  const [tweetText, setTweetText] = useState("");
 
   const togglePopup = () => {
     setOpen(!open);
@@ -67,37 +68,22 @@ const Tweet = ({ username, text, likes, liked, postID }: TweetProps) => {
     console.log("unliked");
   };
 
-  // const openComments = async () => {
-  //   try {
-  //     await axios.put(
-  //       "http://localhost:8000/posts/comments",
-  //       {
-  //         postID: postID,
-  //       },
-  //       {
-  //         headers: { authorization: cookies.access_token },
-  //       }
-  //     );
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const postComment = async () => {
-  //   try {
-  //     await axios.post(
-  //       "http://localhost:8000/posts/comments",
-  //       {
-  //         postID: postID,
-  //       },
-  //       {
-  //         headers: { authorization: cookies.access_token },
-  //       }
-  //     );
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const postTweet = async () => {
+    try {
+      await axios.put(
+        "http://localhost:8000/posts/comment",
+        {
+          post: postID,
+          user: localStorage.getItem("userID"),
+          text: tweetText,
+          username: username,
+        },
+        { headers: { authorization: cookies.access_token } }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="border-[1px] border-zinc-800 p-6">
@@ -145,8 +131,10 @@ const Tweet = ({ username, text, likes, liked, postID }: TweetProps) => {
             <div className="absolute inset-0 bg-black rounded-3xl text-slate-400" />
             <textarea
               className="absolute focus:outline-0 border-0 top-4 bg-black border-t-0 mb-2 text-white resize-none w-[450px] h-[100px] placeholder:text-xl p-3 text-xl"
-              name="tweet"
-              id="tweet"
+              name="tweetText"
+              id="tweetText"
+              value={tweetText}
+              onChange={(event) => setTweetText(event.target.value)}
               cols={20}
               rows={10}
               placeholder="Tweet your reply!"
@@ -154,7 +142,7 @@ const Tweet = ({ username, text, likes, liked, postID }: TweetProps) => {
               // onChange={(event) => setTweetText(event.target.value)}
             ></textarea>
             <button
-              // onClick={handleTweet}
+              onClick={postTweet}
               className="bg-blue-400 rounded-full text-white p-2 px-4 float-right absolute right-4 bottom-4"
             >
               Reply

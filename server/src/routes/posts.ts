@@ -77,6 +77,7 @@ router.put("/unlike", verifyToken, async (req: Request, res: Response) => {
   }
 });
 
+// new comment
 router.put("/comment", verifyToken, async (req: Request, res: Response) => {
   const { postID, userID, text } = req.body;
 
@@ -97,6 +98,16 @@ router.put("/comment", verifyToken, async (req: Request, res: Response) => {
       { $push: { comments: comment } }
     );
     res.json({ message: "Comment added" });
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
+
+// get comments from post using postID
+router.get("/comments/:postID", async (req: Request, res: Response) => {
+  try {
+    const response = await PostModel.findById(req.params.postID);
+    res.json(response?.comments);
   } catch (error) {
     res.json({ message: error });
   }

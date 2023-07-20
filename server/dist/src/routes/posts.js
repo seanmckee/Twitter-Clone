@@ -89,6 +89,7 @@ router.put("/unlike", users_js_1.verifyToken, (req, res) => __awaiter(void 0, vo
         res.json({ message: error });
     }
 }));
+// new comment
 router.put("/comment", users_js_1.verifyToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { postID, userID, text } = req.body;
     const user = yield Users_js_1.UserModel.findById(userID);
@@ -103,6 +104,16 @@ router.put("/comment", users_js_1.verifyToken, (req, res) => __awaiter(void 0, v
     try {
         yield Posts_js_1.PostModel.findOneAndUpdate({ _id: postID }, { $push: { comments: comment } });
         res.json({ message: "Comment added" });
+    }
+    catch (error) {
+        res.json({ message: error });
+    }
+}));
+// get comments from post using postID
+router.get("/comments/:postID", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield Posts_js_1.PostModel.findById(req.params.postID);
+        res.json(response === null || response === void 0 ? void 0 : response.comments);
     }
     catch (error) {
         res.json({ message: error });
