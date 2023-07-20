@@ -1,4 +1,5 @@
 import { useState } from "react";
+import TweetsTab from "./ProfileTabs/TweetsTab";
 
 const Profile = () => {
   const [tabSelection, setTabSelection] = useState("Tweets");
@@ -18,7 +19,7 @@ const Profile = () => {
 
   const renderTabContent = () => {
     if (tabSelection === "Tweets") {
-      return <div className="text-white">Tweets content here</div>;
+      return <TweetsTab />;
     } else if (tabSelection === "Replies") {
       return <div className="text-white">Replies content here</div>;
     } else if (tabSelection === "Likes") {
