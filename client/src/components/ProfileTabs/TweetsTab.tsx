@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Tweet from "../Tweet";
+import TweetsDisplay from "../TweetsDisplay";
 
 const TweetsTab = () => {
   const [posts, setPosts] = useState([]);
@@ -23,24 +24,7 @@ const TweetsTab = () => {
   }, []);
   return (
     <div className="mt-3">
-      {posts &&
-        posts
-          .slice(0)
-          .reverse()
-          .map((post: any) => (
-            <Tweet
-              username={post.username}
-              text={post.text}
-              likes={post.likes ? post.likes.length : 0}
-              liked={
-                post.likes
-                  ? post.likes.includes(localStorage.getItem("userID"))
-                  : false
-              }
-              postID={post._id}
-              key={post._id}
-            />
-          ))}
+      <TweetsDisplay tweets={posts} />
     </div>
   );
 };
