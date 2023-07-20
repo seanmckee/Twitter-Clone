@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import { verifyToken } from "./users.js";
-import { PostModel } from "../models/Posts.js";
+import { PostModel, CommentModel } from "../models/Posts.js";
 import { UserModel } from "../models/Users.js";
 import { Request, Response } from "express";
 
@@ -72,6 +72,25 @@ router.put("/unlike", verifyToken, async (req: Request, res: Response) => {
   try {
     await user.updateOne({ $pull: { likes: postID } });
     await post.updateOne({ $pull: { likes: userID } });
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
+
+router.put("/comment", verifyToken, async (req: Request, res: Response) => {
+  const { postID, userID, text } = req.body;
+  const user = await UserModel.findById(userID);
+  if (!user) return res.json({ message: "User does not exist" });
+
+  const comment = new CommentModel({
+    text: text,
+    user: userID,
+    username: user.username,
+    post: postID,
+  });
+
+  try {
+    await user.updateOne({ $push: { comments: comment } });
   } catch (error) {
     res.json({ message: error });
   }

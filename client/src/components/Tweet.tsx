@@ -14,19 +14,13 @@ type TweetProps = {
   likes: number;
   liked: boolean;
   postID: string;
-} & StateInterface;
+};
 
-const Tweet = ({
-  username,
-  text,
-  likes,
-  liked,
-  postID,
-  triggerRender,
-  setTriggerRender,
-}: TweetProps) => {
+const Tweet = ({ username, text, likes, liked, postID }: TweetProps) => {
   const [cookies, _] = useCookies(["access_token"]);
   const [open, setOpen] = useState(false);
+  const [currentLikes, setCurrentLikes] = useState(likes);
+  const [isLiked, setIsLiked] = useState(liked);
 
   const togglePopup = () => {
     setOpen(!open);
@@ -34,6 +28,8 @@ const Tweet = ({
 
   const likeTweet = async () => {
     try {
+      setCurrentLikes(currentLikes + 1);
+      setIsLiked(true);
       await axios.put(
         "http://localhost:8000/posts/like",
         {
@@ -44,7 +40,6 @@ const Tweet = ({
           headers: { authorization: cookies.access_token },
         }
       );
-      setTriggerRender(!triggerRender);
     } catch (error) {
       console.error(error);
     }
@@ -54,6 +49,8 @@ const Tweet = ({
 
   const unlikeTweet = async () => {
     try {
+      setCurrentLikes(currentLikes - 1);
+      setIsLiked(false);
       await axios.put(
         "http://localhost:8000/posts/unlike",
         {
@@ -64,7 +61,6 @@ const Tweet = ({
           headers: { authorization: cookies.access_token },
         }
       );
-      setTriggerRender(!triggerRender);
     } catch (error) {
       console.error(error);
     }
@@ -111,15 +107,15 @@ const Tweet = ({
       <p className="text-white">{text}</p>
       <div className="text-white flex">
         <div className="flex">
-          <button onClick={liked ? unlikeTweet : likeTweet}>
-            {liked ? (
+          <button onClick={isLiked ? unlikeTweet : likeTweet}>
+            {isLiked ? (
               <AiFillHeart style={{ color: "#e85f5f" }} />
             ) : (
               <AiOutlineHeart />
             )}
           </button>
 
-          <span className="ml-1">{likes}</span>
+          <span className="ml-1">{currentLikes}</span>
         </div>
         <div>
           <button className="ml-3">

@@ -48,8 +48,6 @@ const Home = () => {
                   : false
               }
               postID={post._id}
-              triggerRender={triggerRender}
-              setTriggerRender={setTriggerRender}
               key={post._id}
             />
           ))}
