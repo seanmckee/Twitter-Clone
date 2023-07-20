@@ -1,6 +1,8 @@
 import Authentication from "./components/Authentication";
 import Home from "./components/Home";
+import Profile from "./components/Profile";
 import Sidebar from "./components/Sidebar";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
@@ -11,7 +13,10 @@ function App() {
         </div>
         <div className="w-[40%] text-left">
           <div>
-            <Home />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
           </div>
         </div>
         <div

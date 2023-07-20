@@ -2,6 +2,7 @@ import { FaTwitter } from "react-icons/fa";
 import { HiSearch } from "react-icons/hi";
 import { FaRegBookmark } from "react-icons/fa";
 import { BiUser, BiHomeCircle } from "react-icons/bi";
+import { Route, Routes, Link } from "react-router-dom";
 
 const Sidebar = () => {
   const logout = () => {
@@ -16,10 +17,12 @@ const Sidebar = () => {
           <FaTwitter className="ml-4" />
         </li>
         <li className="flex text-2xl ">
-          <div className="flex hover:bg-zinc-800 rounded-full p-3">
-            <BiHomeCircle className="text-white text-3xl" />
-            <span className="text-white ml-2">Home</span>
-          </div>
+          <Link to="/">
+            <div className="flex hover:bg-zinc-800 rounded-full p-3">
+              <BiHomeCircle className="text-white text-3xl" />
+              <span className="text-white ml-2">Home</span>
+            </div>
+          </Link>
         </li>
         <li className="flex">
           <div className="flex hover:bg-zinc-800 rounded-full p-3">
@@ -34,10 +37,15 @@ const Sidebar = () => {
           </div>
         </li>
         <li className="flex">
-          <div className="flex hover:bg-zinc-800 rounded-full p-3 ">
-            <BiUser className="text-white text-2xl" />
-            <span className="text-white text-2xl ml-3">Profile</span>
-          </div>
+          <Link
+            to="/profile"
+            // className="flex hover:bg-zinc-800 rounded-full p-3"
+          >
+            <div className="flex hover:bg-zinc-800 rounded-full p-3 ">
+              <BiUser className="text-white text-2xl" />
+              <span className="text-white text-2xl ml-3">Profile</span>
+            </div>
+          </Link>
         </li>
         <li>
           <button className="bg-blue-400 text-white p-3 rounded-full w-[200px] font-bold m-2 mt-4">

@@ -170,7 +170,7 @@ const Tweet = ({ username, text, likes, liked, postID }: TweetProps) => {
           </Popup>
         </div>
       </div>
-      <div className={commentsVisible ? "w-[80%] m-auto" : "hidden"}>
+      <div className={commentsVisible ? "w-[95%] ml-auto" : "hidden"}>
         {comments &&
           comments
             .slice(0)
