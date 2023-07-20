@@ -60,6 +60,19 @@ router.get("/username/:id", (req, res) => __awaiter(void 0, void 0, void 0, func
         res.json({ message: error });
     }
 }));
+// get user from id
+router.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const user = yield Users_js_1.UserModel.findById(id);
+        if (!user)
+            return res.json({ message: "User does not exist" });
+        res.json(user);
+    }
+    catch (error) {
+        res.json({ message: error });
+    }
+}));
 const verifyToken = (req, res, next) => {
     const token = req.headers.authorization;
     if (token) {

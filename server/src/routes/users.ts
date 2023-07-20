@@ -56,6 +56,18 @@ router.get("/username/:id", async (req: Request, res: Response) => {
   }
 });
 
+// get user from id
+router.get("/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const user = await UserModel.findById(id);
+    if (!user) return res.json({ message: "User does not exist" });
+    res.json(user);
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
+
 export { router as userRouter };
 
 export const verifyToken = (

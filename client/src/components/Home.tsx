@@ -1,8 +1,8 @@
 import axios from "axios";
-import Tweet from "./Tweet";
 import WriteTweet from "./WriteTweet";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { useState } from "react";
+import TweetsDisplay from "./TweetsDisplay";
 
 export interface StateInterface {
   triggerRender: boolean;
@@ -32,26 +32,7 @@ const Home = () => {
         Home
       </h1>
       <WriteTweet trigger={triggerRender} setTrigger={setTriggerRender} />
-
-      <div className="">
-        {posts
-          .slice(0)
-          .reverse()
-          .map((post: any) => (
-            <Tweet
-              username={post.username}
-              text={post.text}
-              likes={post.likes ? post.likes.length : 0}
-              liked={
-                post.likes
-                  ? post.likes.includes(localStorage.getItem("userID"))
-                  : false
-              }
-              postID={post._id}
-              key={post._id}
-            />
-          ))}
-      </div>
+      <TweetsDisplay tweets={posts} />
     </div>
   );
 };
