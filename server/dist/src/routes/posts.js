@@ -101,7 +101,8 @@ router.put("/comment", users_js_1.verifyToken, (req, res) => __awaiter(void 0, v
         post: postID,
     });
     try {
-        yield user.updateOne({ $push: { comments: comment } });
+        yield Posts_js_1.PostModel.findOneAndUpdate({ _id: postID }, { $push: { comments: comment } });
+        res.json({ message: "Comment added" });
     }
     catch (error) {
         res.json({ message: error });

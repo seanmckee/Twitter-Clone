@@ -79,7 +79,9 @@ router.put("/unlike", verifyToken, async (req: Request, res: Response) => {
 
 router.put("/comment", verifyToken, async (req: Request, res: Response) => {
   const { postID, userID, text } = req.body;
+
   const user = await UserModel.findById(userID);
+
   if (!user) return res.json({ message: "User does not exist" });
 
   const comment = new CommentModel({
@@ -90,7 +92,11 @@ router.put("/comment", verifyToken, async (req: Request, res: Response) => {
   });
 
   try {
-    await user.updateOne({ $push: { comments: comment } });
+    await PostModel.findOneAndUpdate(
+      { _id: postID },
+      { $push: { comments: comment } }
+    );
+    res.json({ message: "Comment added" });
   } catch (error) {
     res.json({ message: error });
   }
