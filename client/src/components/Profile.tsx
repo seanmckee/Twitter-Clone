@@ -1,30 +1,95 @@
+import { useState } from "react";
+
 const Profile = () => {
+  const [tabSelection, setTabSelection] = useState("Tweets");
+
+  const clickTweets = () => {
+    setTabSelection("Tweets");
+  };
+  const clickReplies = () => {
+    setTabSelection("Replies");
+  };
+  const clickLikes = () => {
+    setTabSelection("Likes");
+  };
+  const clickRetweets = () => {
+    setTabSelection("Retweets");
+  };
+
+  const renderTabContent = () => {
+    if (tabSelection === "Tweets") {
+      return <div className="text-white">Tweets content here</div>;
+    } else if (tabSelection === "Replies") {
+      return <div className="text-white">Replies content here</div>;
+    } else if (tabSelection === "Likes") {
+      return <div className="text-white">Likes content here</div>;
+    } else if (tabSelection === "Retweets") {
+      return <div className="text-white">Retweets content here</div>;
+    } else {
+      return <div>Default content here</div>;
+    }
+  };
+
   return (
     <div className="p-3">
       <h1 className="text-white text-2xl font-bold">username</h1>
-      <p className="text-slate-700">0 Tweets</p>
+      <p className="text-white">0 Tweets</p>
       <div className="flex text-white">
         <p className="mr-2">
-          0 <span className="text-slate-700 text-md">Following</span>
+          0 <span className="text-md">Following</span>
         </p>
         <p className="">
-          0 <span className="text-slate-700 text-md">Followers</span>
+          0 <span className="text-md">Followers</span>
         </p>
       </div>
       <ul className="text-white flex justify-center">
-        <li className="p-2 text-slate-700 flex flex-grow items-center justify-center hover:bg-slate-900">
+        <li
+          onClick={clickTweets}
+          className={
+            tabSelection == "Tweets"
+              ? "p-2 underline decoration-blue-400 decoration-2 underline-offset-4 flex flex-grow items-center justify-center hover:bg-slate-900"
+              : "p-2 flex flex-grow items-center justify-center hover:bg-slate-900"
+          }
+        >
           Tweets
         </li>
-        <li className="p-2 text-slate-700 flex flex-grow items-center justify-center hover:bg-slate-900">
+        <li
+          onClick={clickReplies}
+          className={
+            tabSelection == "Replies"
+              ? "p-2 underline decoration-blue-400 decoration-2 underline-offset-4 flex flex-grow items-center justify-center hover:bg-slate-900"
+              : "p-2 flex flex-grow items-center justify-center hover:bg-slate-900"
+          }
+        >
           Replies
         </li>
-        <li className="p-2 text-slate-700 flex flex-grow items-center justify-center hover:bg-slate-900">
+        <li
+          onClick={clickLikes}
+          className={
+            tabSelection == "Likes"
+              ? "p-2 underline decoration-blue-400 decoration-2 underline-offset-4 flex flex-grow items-center justify-center hover:bg-slate-900"
+              : "p-2 flex flex-grow items-center justify-center hover:bg-slate-900"
+          }
+        >
           Likes
         </li>
-        <li className="p-2 text-slate-700 flex flex-grow items-center justify-center hover:bg-slate-900">
+        <li
+          onClick={clickRetweets}
+          className={
+            tabSelection == "Retweets"
+              ? "p-2 underline decoration-blue-400 decoration-2 underline-offset-4 flex flex-grow items-center justify-center hover:bg-slate-900"
+              : "p-2 flex flex-grow items-center justify-center hover:bg-slate-900"
+          }
+        >
           Retweets
         </li>
       </ul>
+
+      <div>
+        {/* Render the tab content */}
+        {renderTabContent()}
+        {/* Rest of your JSX */}
+      </div>
     </div>
   );
 };
