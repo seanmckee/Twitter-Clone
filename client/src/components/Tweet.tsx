@@ -1,11 +1,10 @@
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import { StateInterface } from "./Home";
 
 import { FaRegComment } from "react-icons/fa";
 import { HiReply } from "react-icons/hi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Popup from "reactjs-popup";
 
 type TweetProps = {
@@ -22,6 +21,7 @@ const Tweet = ({ username, text, likes, liked, postID }: TweetProps) => {
   const [currentLikes, setCurrentLikes] = useState(likes);
   const [isLiked, setIsLiked] = useState(liked);
   const [tweetText, setTweetText] = useState("");
+  const [comments, setComments] = useState([]);
 
   const togglePopup = () => {
     setOpen(!open);
@@ -68,7 +68,7 @@ const Tweet = ({ username, text, likes, liked, postID }: TweetProps) => {
     console.log("unliked");
   };
 
-  const postTweet = async () => {
+  const postComment = async () => {
     try {
       await axios.put(
         "http://localhost:8000/posts/comment",
@@ -84,6 +84,23 @@ const Tweet = ({ username, text, likes, liked, postID }: TweetProps) => {
       console.error(error);
     }
   };
+
+  const getComments = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/posts/comments/${postID}`
+      );
+      setComments(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getComments();
+    console.log("running");
+  }, []);
 
   return (
     <div className="border-[1px] border-zinc-800 p-6">
@@ -107,7 +124,7 @@ const Tweet = ({ username, text, likes, liked, postID }: TweetProps) => {
           <button className="ml-3">
             <FaRegComment />
           </button>
-          <span className="ml-1">0</span>
+          <span className="ml-1">{comments.length}</span>
         </div>
 
         <button onClick={togglePopup}>
@@ -140,7 +157,7 @@ const Tweet = ({ username, text, likes, liked, postID }: TweetProps) => {
               placeholder="Tweet your reply!"
             ></textarea>
             <button
-              onClick={postTweet}
+              onClick={postComment}
               className="bg-blue-400 rounded-full text-white p-2 px-4 float-right absolute right-4 bottom-4"
             >
               Reply
