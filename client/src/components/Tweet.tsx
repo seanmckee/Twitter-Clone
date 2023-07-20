@@ -73,13 +73,13 @@ const Tweet = ({ username, text, likes, liked, postID }: TweetProps) => {
       await axios.put(
         "http://localhost:8000/posts/comment",
         {
-          post: postID,
-          user: localStorage.getItem("userID"),
+          postID: postID,
+          userID: localStorage.getItem("userID"),
           text: tweetText,
-          username: username,
         },
         { headers: { authorization: cookies.access_token } }
       );
+      togglePopup();
     } catch (error) {
       console.error(error);
     }
@@ -116,7 +116,7 @@ const Tweet = ({ username, text, likes, liked, postID }: TweetProps) => {
         <Popup
           open={open}
           closeOnDocumentClick
-          onClose={togglePopup}
+          // onClose={togglePopup}
           contentStyle={{
             background: "black",
             position: "relative",
@@ -138,8 +138,6 @@ const Tweet = ({ username, text, likes, liked, postID }: TweetProps) => {
               cols={20}
               rows={10}
               placeholder="Tweet your reply!"
-              // value={tweetText}
-              // onChange={(event) => setTweetText(event.target.value)}
             ></textarea>
             <button
               onClick={postTweet}
