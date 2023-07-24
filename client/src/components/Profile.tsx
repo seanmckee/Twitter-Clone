@@ -24,7 +24,7 @@ const Profile = () => {
     } else if (tabSelection === "Replies") {
       return <div className="text-white">Replies content here</div>;
     } else if (tabSelection === "Likes") {
-      return <LikesTab />;
+      return <LikesTab tabSelection={tabSelection} />;
     } else if (tabSelection === "Retweets") {
       return <div className="text-white">Retweets content here</div>;
     } else {

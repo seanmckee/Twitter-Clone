@@ -2,7 +2,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import TweetsDisplay from "../TweetsDisplay";
 
-const LikesTab = () => {
+interface Props {
+  tabSelection: string;
+}
+
+const LikesTab = (tabSelection: Props) => {
   type Post = {
     _id: string;
     user: string;
@@ -27,6 +31,7 @@ const LikesTab = () => {
   };
 
   const getLikedPosts = async () => {
+    setPosts([]);
     for (let i = 0; i < likes.length; i++) {
       try {
         const response = await axios.get(
@@ -43,12 +48,11 @@ const LikesTab = () => {
   useEffect(() => {
     getUserLikes();
     getLikedPosts();
-    console.log(posts);
-  }, [posts]);
+  }, [tabSelection]);
 
   return (
     <div>
-      <h1 className="text-white">{}</h1>
+      <h1 className="text-white">test</h1>
       {<TweetsDisplay tweets={posts} />}
     </div>
   );
