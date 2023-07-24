@@ -45,7 +45,6 @@ const LikesTab = ({ tabSelection }: Props) => {
   };
 
   useEffect(() => {
-    console.log("tabSelection: ", tabSelection);
     getUserLikes();
     getLikedPosts();
   }, [tabSelection]);
