@@ -6,7 +6,7 @@ interface Props {
   tabSelection: string;
 }
 
-const LikesTab = (tabSelection: Props) => {
+const LikesTab = ({ tabSelection }: Props) => {
   type Post = {
     _id: string;
     user: string;
@@ -31,7 +31,6 @@ const LikesTab = (tabSelection: Props) => {
   };
 
   const getLikedPosts = async () => {
-    setPosts([]);
     for (let i = 0; i < likes.length; i++) {
       try {
         const response = await axios.get(
@@ -46,6 +45,7 @@ const LikesTab = (tabSelection: Props) => {
   };
 
   useEffect(() => {
+    console.log("tabSelection: ", tabSelection);
     getUserLikes();
     getLikedPosts();
   }, [tabSelection]);
