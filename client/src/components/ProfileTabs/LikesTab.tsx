@@ -19,35 +19,20 @@ const LikesTab = ({ tabSelection }: Props) => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [likes, setLikes] = useState([]);
 
-  const getUserLikes = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/auth/${localStorage.getItem("userID")}`
-      );
-      setLikes(response.data.likes);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getLikedPosts = async () => {
-    for (let i = 0; i < likes.length; i++) {
+  useEffect(() => {
+    const getLikedPosts = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/posts/${likes[i]}`
+          `http://localhost:8000/posts/likes/${localStorage.getItem("userID")}`
         );
-        console.log(response.data);
-        setPosts((prevPosts) => [...prevPosts, response.data]);
+        setPosts(response.data);
       } catch (error) {
         console.error(error);
       }
-    }
-  };
+    };
 
-  useEffect(() => {
-    getUserLikes();
     getLikedPosts();
-  }, [tabSelection]);
+  }, []);
 
   return (
     <div>

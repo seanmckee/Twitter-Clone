@@ -119,3 +119,20 @@ router.get("/comments/:postID", (req, res) => __awaiter(void 0, void 0, void 0, 
         res.json({ message: error });
     }
 }));
+// get a list of post objects that user has liked
+router.get("/likes/:userID", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let likesArray = [];
+    try {
+        const response = yield Users_js_1.UserModel.findById(req.params.userID);
+        const likes = response === null || response === void 0 ? void 0 : response.likes;
+        if (!likes)
+            return res.json({ message: "User has not liked any posts" });
+        for (let i = 0; i < (likes === null || likes === void 0 ? void 0 : likes.length); i++) {
+            likesArray.push(yield Posts_js_1.PostModel.findById(likes[i]));
+        }
+        res.json(likesArray);
+    }
+    catch (error) {
+        res.json({ message: error });
+    }
+}));

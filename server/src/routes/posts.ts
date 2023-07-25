@@ -113,4 +113,22 @@ router.get("/comments/:postID", async (req: Request, res: Response) => {
   }
 });
 
+// get a list of post objects that user has liked
+router.get("/likes/:userID", async (req: Request, res: Response) => {
+  let likesArray = [];
+
+  try {
+    const response = await UserModel.findById(req.params.userID);
+    const likes = response?.likes;
+    if (!likes) return res.json({ message: "User has not liked any posts" });
+    for (let i = 0; i < likes?.length; i++) {
+      likesArray.push(await PostModel.findById(likes[i]));
+    }
+
+    res.json(likesArray);
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
+
 export { router as postRouter };
